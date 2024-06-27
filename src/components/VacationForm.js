@@ -1,50 +1,51 @@
 import React, { useState } from 'react';
-import axios from 'axios'; 
 
-const VacationForm = () => {
-  const [employee, setEmployee] = useState('');
+const AddVacation = () => {
+  const [employeeFullName, setEmployeeFullName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const newVacation = { employee, startDate, endDate };
+    const token = localStorage.getItem('token');
 
-    axios.post('/api/vacations', newVacation)
-      .then(response => {
-        console.log('Vacation added successfully:', response.data);
-      })
-      .catch(error => {
-        console.error('Error adding vacation:', error);
+    try {
+      const response = await fetch('http://localhost:3001/api/v1/vacations', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ employee_full_name: employeeFullName, start_date: startDate, end_date: endDate })
       });
 
-    setEmployee('');
-    setStartDate('');
-    setEndDate('');
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      console.log('Vacation created successfully!');
+    } catch (error) {
+      console.error('Error creating vacation:', error.message);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Vacation</h2>
-      <label>
-        Employee:
-        <input type="text" value={employee} onChange={(e) => setEmployee(e.target.value)} required />
-      </label>
-      <br />
-      <label>
-        Start Date:
+    <div>
+      <h1>Add Vacation</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Employee Full Name:</label>
+        <input type="text" value={employeeFullName} onChange={(e) => setEmployeeFullName(e.target.value)} required />
+
+        <label>Start Date:</label>
         <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
-      </label>
-      <br />
-      <label>
-        End Date:
+
+        <label>End Date:</label>
         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
-      </label>
-      <br />
-      <button type="submit">Add Vacation</button>
-    </form>
+
+        <button type="submit">Create Vacation</button>
+      </form>
+    </div>
   );
 };
 
-export default VacationForm;
+export default AddVacation;

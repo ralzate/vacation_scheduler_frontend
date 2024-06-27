@@ -1,26 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
 
 const VacationList = () => {
   const [vacations, setVacations] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/vacations')
-      .then(response => {
-        setVacations(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching vacations:', error);
-      });
+    const fetchVacations = async () => {
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await fetch('http://localhost:3001/api/v1/vacations', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setVacations(data); 
+
+      } catch (error) {
+        console.error('Error fetching vacations:', error.message);
+      }
+    };
+
+    fetchVacations();
   }, []);
 
   return (
     <div>
-      <h2>List of Vacations</h2>
+      <h1>Vacation List</h1>
       <ul>
-        {vacations.map(vacation => (
-          <li key={vacation.id}>
-            <strong>{vacation.employee}</strong> - {vacation.startDate} to {vacation.endDate}
+        {vacations.map((vacation, index) => (
+          <li key={index}>
+            {vacation.employee_full_name} - {vacation.start_date} to {vacation.end_date}
           </li>
         ))}
       </ul>

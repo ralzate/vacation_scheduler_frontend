@@ -1,15 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import Home from './Home'; 
 import VacationList from './VacationList';
 import VacationForm from './VacationForm';
 
 const App = () => {
   return (
     <Router>
-      <div>
-          <Route path="/vacations" component={VacationList} />
-          <Route path="/add-vacation" component={VacationForm} />
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/vacations" element={<VacationList />} />
+        <Route path="/add-vacation" element={<VacationForm />} />
+      </Routes>
     </Router>
   );
 };

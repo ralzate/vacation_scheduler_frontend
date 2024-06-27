@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-const apiUrl = 'http://localhost:3000'; 
+const apiUrl = 'http://localhost:3001'; 
 
 const axiosInstance = axios.create({
   baseURL: apiUrl,
@@ -34,3 +34,8 @@ export const useCreateVacation = () => {
   });
 };
 
+export const getVacations = async () => {
+  const response = await fetch('url_de_tu_api');
+  const data = await response.json();
+  return data;
+};
