@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './VacationForm.css'; 
 
 const AddVacation = () => {
   const [employeeFullName, setEmployeeFullName] = useState('');
@@ -23,26 +24,55 @@ const AddVacation = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
       console.log('Vacation created successfully!');
+      setEmployeeFullName('');
+      setStartDate('');
+      setEndDate('');
+
     } catch (error) {
       console.error('Error creating vacation:', error.message);
     }
   };
 
   return (
-    <div>
+    <div className="add-vacation-container">
       <h1>Add Vacation</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Employee Full Name:</label>
-        <input type="text" value={employeeFullName} onChange={(e) => setEmployeeFullName(e.target.value)} required />
+      <form onSubmit={handleSubmit} className="add-vacation-form">
+        <div className="form-group">
+          <label htmlFor="employeeFullName">Employee Full Name:</label>
+          <input
+            type="text"
+            id="employeeFullName"
+            value={employeeFullName}
+            onChange={(e) => setEmployeeFullName(e.target.value)}
+            required
+          />
+        </div>
 
-        <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+        <div className="form-group">
+          <label htmlFor="startDate">Start Date:</label>
+          <input
+            type="date"
+            id="startDate"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            required
+          />
+        </div>
 
-        <label>End Date:</label>
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+        <div className="form-group">
+          <label htmlFor="endDate">End Date:</label>
+          <input
+            type="date"
+            id="endDate"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            required
+          />
+        </div>
 
-        <button type="submit">Create Vacation</button>
+        <button type="submit" className="submit-button">Create Vacation</button>
       </form>
     </div>
   );

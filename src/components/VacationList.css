@@ -1,0 +1,37 @@
+.vacation-list-container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vacation-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.vacation-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vacation-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vacation-employee {
+  font-weight: bold;
+}
+
+.vacation-dates {
+  font-style: italic;
+  color: #666666;
+}
